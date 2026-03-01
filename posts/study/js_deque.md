@@ -11,7 +11,7 @@ github: 'https://github.com/wndgur2/BlogDB/blob/main/posts/study/js_deque.md'
 
 Double-ended queue(이하 Deque)는 한 방향으로만 입력과 출력이 가능한 Queue를 확장하여 양방향에서 입출력이 가능한 리스트 구조를 말한다.
 
-![deque](<img width="451" height="306" alt="Image" src="https://github.com/user-attachments/assets/fe74c9da-924a-4153-a3bb-681e16fef3ab" />)
+<img width="451" height="306" alt="deque" src="https://github.com/user-attachments/assets/fe74c9da-924a-4153-a3bb-681e16fef3ab" />
 
 ## javascript로 왜 Deque를 구현해야할까?
 
