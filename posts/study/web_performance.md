@@ -77,3 +77,40 @@ Lighthouse 보고서에는 친절하게 개선 방안을 중요도 순서로 제
 
 ### `Red` 효율적인 캐시 수명 사용 (예상 절감 용량: 5,001KiB)
 
+- 이미지를 깃허브 서버를 사용하기때문에 cache 헤더를 수정할 수 없었다.
+- service worker를 통해 cache storage에 직접 저장하는 방법이 있다고 하지만, 굳이 적용하지는 않았다. 그 이유는 아래와 같다.
+  1. 캐시 타임을 늘려도 첫 방문자의 경험을 개선하지 못한다.
+  2. 가장 많은 네트워크를 잡아먹는 이미지의 경우 압축을 통해 개선이 가능했다.
+
+### `Red` 이미지 전달 개선 ***-3,723KiB***
+
+- jpeg 이미지를 모두 같은 해상도의 webp로 변경했다.
+- 리소스 사이즈가 10배 이상 줄었다.
+
+<img alt="Image" src="https://github.com/user-attachments/assets/c4b42a9c-f49d-4b57-a441-a34fdc928df8" />
+
+
+### Render-blocking requests ***-440ms***
+
+- Google Fonts 패칭을 defer하여 폰트 랜더링 지연을 방지했다.
+- *Trade off*: 해당 폰트를 불러오는 동안 fallback font가 표시된다.
+
+<img alt="Image" src="https://github.com/user-attachments/assets/9733a59b-ed6d-4643-b0e0-c46fb8a12e2d" />
+
+
+### LCP request discovery
+
+- 가장 먼저 표시되어야하는 이미지를 빠르게 로드했다.
+- 홈페이지 첫 화면에 나타나는 Project Preview, Profile의 attr를
+  `loading:eager`, `fetchPriority:high`로 설정했다.
+
+### Layout shift culprits **0.547 -> 0.001**
+
+- 사용자와 interaction 없이 발생하는 layout shift는 UX에 치명적이다.
+- Lighthouse는 레이아웃 변경의 영향 범위, 거리(distance)에 따라 점수를 부여하여 평가한다. (lower is better)
+- 고정 height를 사용하고, 이미지 크기를 지정하여 개선했다.
+
+> *https://web.dev/articles/cls?hl=ko*
+
+### Total Reflow Time `- 75ms (100%)`
+
