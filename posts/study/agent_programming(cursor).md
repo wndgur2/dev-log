@@ -9,17 +9,16 @@ tags:
 Cursor 활용 정리 문서
 
 > 이 문서는 Cursor을 사용하며 얻은 Agentic Programming 노하우를 작성하며, 인사이트 혹은 변경 사항이 있을 때마다 업데이트할 예정입니다.  
-> 하루가 다르게 변화하는 내용이라 수정이 많을 수도 있습니다. (수정 시 날짜 표기)  
-> 날짜가 적히지 않은 내용은 2026.05.11에 작성되었습니다.
+> 하루가 다르게 변화하는 내용이라 수정이 많을 수 있습니다. (수정 시 날짜 표기)  
 
 ## 전제
 
-### 코딩을 위한 범용 Agent Harness는 Cursor에게 전임한다.  
+### 1. 코딩을 위한 범용 Agent Harness는 Cursor에게 전임한다.  
 
-### 우리가 해야하는 일은
-  1. Cursor에게 프로젝트의 목표(tommorrow)와 현재 상태(today)를 인지시키는 것
-  2. Cursor의 Outcome을 검수하는 것
-  3. Cursor의 Outcome을 내가 follow up하는 것
+### 2. 우리가 해야하는 일은
+  - Cursor에게 프로젝트의 목표(tommorrow)와 현재 상태(today)를 인지시키는 것
+  - Cursor의 Outcome을 검수하는 것
+  - Cursor의 Outcome을 내가 follow up하는 것
 
 ## Cursor 이해하기
 
