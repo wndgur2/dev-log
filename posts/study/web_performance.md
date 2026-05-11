@@ -2,7 +2,7 @@
 category: Study
 title: Page Speed Insight (1) - Performance (진행중)
 date_started: 2026.04.07
-date_updated: 2026.04.07
+date_updated: 2026.05.11
 tags: lighthouse, PSI, FCP, LCP, CLS, TBT
 ---
 
@@ -89,13 +89,17 @@ Lighthouse 보고서에는 친절하게 개선 방안을 중요도 순서로 제
 
 <img alt="Image" src="https://github.com/user-attachments/assets/c4b42a9c-f49d-4b57-a441-a34fdc928df8" />
 
+> *before > after*
+
 
 ### Render-blocking requests ***-440ms***
 
-- Google Fonts 패칭을 defer하여 폰트 랜더링 지연을 방지했다.
+- Google Fonts 패칭을 defer하여 폰트 렌더링 지연을 방지했다.
 - *Trade off*: 해당 폰트를 불러오는 동안 fallback font가 표시된다.
 
 <img alt="Image" src="https://github.com/user-attachments/assets/9733a59b-ed6d-4643-b0e0-c46fb8a12e2d" />
+
+> *before > after*
 
 
 ### LCP request discovery
@@ -107,7 +111,7 @@ Lighthouse 보고서에는 친절하게 개선 방안을 중요도 순서로 제
 ### Layout shift culprits **0.547 -> 0.001**
 
 - 사용자와 interaction 없이 발생하는 layout shift는 UX에 치명적이다.
-- Lighthouse는 레이아웃 변경의 영향 범위, 거리(distance)에 따라 점수를 부여하여 평가한다. (lower is better)
+- 레이아웃 변경의 영향 범위, 거리(distance)에 따라 점수가 부여된다. (lower is better)
 - 고정 height를 사용하고, 이미지 크기를 지정하여 개선했다.
 
 > *https://web.dev/articles/cls?hl=ko*
