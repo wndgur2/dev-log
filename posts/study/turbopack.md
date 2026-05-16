@@ -4,6 +4,7 @@ title: Turbopack
 date_started: 2024.12.14
 date_updated: 2024.12.14
 tags: bundler, browser
+isDraft: true
 ---
 
 <img src='https://github.com/user-attachments/assets/bf424249-6c33-4964-a258-0c9b502fbcf3' alt='turbopack' />

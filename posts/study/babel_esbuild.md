@@ -1,6 +1,6 @@
 ---
 category: Study
-title: Babel_Esbuild
+title: Babel vs ESBuild
 date_started: 2024.12.06
 date_updated: 2024.12.11
 tags: transpiler, browser

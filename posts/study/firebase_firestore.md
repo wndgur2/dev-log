@@ -4,6 +4,7 @@ title: firebase_firestore
 date_started: 2024.12.26
 date_updated: 2024.12.26
 tags: firebase, cloud-service, database
+isDraft: true
 ---
 
 <img src='https://github.com/user-attachments/assets/618cf69a-3ddf-48bb-a2b5-286b847d2ac3' alt='firestore'/>
