@@ -5,7 +5,7 @@ title: Cursor 활용
 date_started: 2026.05.11
 date_updated: 2026.05.11
 tags: agent, ai
-publish: false
+isDraft: true
 
 ---
 
