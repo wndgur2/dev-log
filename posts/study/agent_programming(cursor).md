@@ -1,9 +1,12 @@
 ---
+
 category: Study
 title: Cursor 활용
 date_started: 2026.05.11
 date_updated: 2026.05.11
-tags: 
+tags: agent, ai
+publish: false
+
 ---
 
 Cursor 활용 정리 문서
@@ -13,14 +16,17 @@ Cursor 활용 정리 문서
 
 ## 전제
 
-### 1. 코딩을 위한 범용 Agent Harness는 Cursor에게 전임한다.  
+### 1. 코딩을 위한 범용 Agent Harness는 Cursor에게 전임한다.
 
-### 2. 우리가 해야하는 일은
-  - Cursor에게 프로젝트의 목표(tommorrow)와 현재 상태(today)를 인지시키는 것
-  - Cursor의 Outcome을 검수하는 것
-  - Cursor의 Outcome을 내가 follow up하는 것
+### 2. 목표 (20260512 fixed)
 
-## Cursor 이해하기
+- Cursor에게 프로젝트의 목표(tommorrow)와 현재 상태(today)를 정확히 인지시키는 것
+- Cursor의 Outcome을 검수하는 것 (안정적인 product를 유지하는 것)
+- Cursor의 Outcome을 내가 Tracking하는 것
+- 내가 잘 모르는 분야를 Agent가 안정적이고 유지보수가 용이한 코드로 개발하는 것 (20260512 added)
+  - 그냥 작동하는 것으로 마치면 제품까지 연결이 어렵다
+
+## 1. Cursor 이해하기
 
 1. [Cursor.com/docs](https://cursor.com/docs)
 
@@ -33,11 +39,23 @@ Cursor 활용 정리 문서
 
 생각보다 양이 많지 않고 명료하게 작성되어 있어 정독하기 수월했다.
 
-2. [cursor-team-kit](https://cursor.com/en-US/marketplace/cursor/cursor-team-kit) 플러그인 활용
+1. [cursor-team-kit](https://cursor.com/en-US/marketplace/cursor/cursor-team-kit) 플러그인 활용
 
 Cursor 팀에서 사용하는 skill, rule, subagent를 모아놓은 Plugin이다. 실제로 유용하기도 하고 사용하다보면 기능별 프롬프팅 Best Practice를 지속적으로 tracking하기 좋을 것이라 생각한다.
 
 플러그인의 업데이트 주기는 [cursor-team-kit Github](https://github.com/cursor/plugins/commits/d1cdb88a9eb33cf392395c87e3fd76419fc1010e/cursor-team-kit)를 보면 알 수 있었는데, 약 1~2개월마다 업데이트되는 걸 보니 Cursor 업데이트에 따른 개선이 적용되는 것 같다.
 
-## Cursor에게 프로젝트의 목표(tommorrow)와 현재 상태(today)를 인지시키기
+## 2. Cursor에게 프로젝트의 목표(tommorrow)와 현재 상태(today)를 인지시키기
+
+
+
+## 3. 검수
+
+
+
+## 4. 결과물 트래킹
+
+
+
+## 5. 나도 모르는 분야를 Cursor로 개발하기
 
