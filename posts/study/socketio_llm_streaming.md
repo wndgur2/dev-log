@@ -19,6 +19,9 @@ Client ── POST /api/chatrooms/:id/messages ──▶ Server   (202 Accepted 
 Client ◀── ai_typing_state / ai_message_chunk / ai_message_complete ── Server (Socket.IO room)
 ```
 
+![시퀀스 다이어그램: 클라이언트가 joinRoom 후 POST로 메시지를 보내고 202를 받으면, 서버가 gateway를 통해 ai_typing_state, 누적 ai_message_chunk, ai_message_complete를 room으로 보내고 클라이언트가 쿼리 캐시에 최종 메시지를 넣는다](/images/posts/socketio-llm-streaming/sequence.svg)
+*그림. HTTP 요청은 202로 바로 끝나고, 답변은 gateway가 room으로 보내는 누적 chunk로 도착해 complete 때 쿼리 캐시에 들어간다.*
+
 - HTTP 요청은 사용자 메시지를 저장하고 바로 `202`를 돌려준다. 응답 본문에 AI 답변은 없다.
 - AI 답변 생성은 백그라운드에서 시작하고, 결과는 해당 채팅방의 Socket.IO room으로 보낸다.
 - 사용자 요청 없이 생기는 proactive 메시지도 같은 소켓 이벤트로 보낼 수 있다. 소켓을 별도 채널로 둔 덕분이다.
@@ -80,6 +83,9 @@ return fullContent;
 
 - **장점**: 클라이언트 state가 항상 서버의 마지막 값과 같다. 중간 chunk를 놓치거나, 재연결 후 늦게 붙어도 다음 chunk 하나로 화면이 맞춰진다.
 - **단점**: payload가 응답 길이만큼 계속 커진다. 전체 전송량은 길이의 제곱에 비례한다.
+
+![delta와 누적값 비교: 중간 chunk가 유실되면 delta 방식은 "ac"가 남고, 누적값 방식은 다음 chunk "abc"로 화면이 맞춰진다](/images/posts/socketio-llm-streaming/delta-vs-cumulative.svg)
+*그림. 중간 chunk 하나를 놓쳤을 때 delta 방식은 글자가 빠진 채 남고, 누적값 방식은 다음 chunk로 복구된다.*
 
 ## 4. CORS: HTTP와 소켓 설정 맞추기 (2026.05.03)
 

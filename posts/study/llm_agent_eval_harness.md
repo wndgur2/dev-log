@@ -48,6 +48,9 @@ expect:
 
 채점은 단계별 funnel로 했다. 예를 들어 `도구 선택 → 결과물 생성 → 저장 → 실제 실행`처럼 나누면, 어느 단계에서 깨졌는지가 바로 보인다. 최종 성공률 하나만 보면 "어디가 나빠졌는지"를 알 수 없었다.
 
+![단계별 funnel 채점](/images/posts/llm-agent-eval-harness/step-funnel.svg)
+*그림. 단계별로 통과한 케이스를 보면, 케이스가 어느 단계에서 빠졌는지가 바로 드러난다.*
+
 여기에 직교하는 체크를 따로 뒀다.
 
 - **턴별 reply 체크**: 답변 언어가 사용자 언어를 따라가는지, 특정 문구가 들어가거나 빠졌는지
@@ -115,6 +118,9 @@ function score(passed: boolean, retries: number, discount = 0.5) {
 1. 사용자 피드백·대화 채널에서 아직 코퍼스에 없는 시나리오를 찾는다.
 2. 케이스 초안을 쓰고, 테스트 환경에서 반복 실행한다.
 3. 결과와 함께 리뷰용 PR을 올리고 리포트를 남긴다.
+
+![케이스를 찾는 정기 루틴](/images/posts/llm-agent-eval-harness/case-discovery-routine.svg)
+*그림. 루틴은 red 케이스만 리뷰용 PR로 올리고, 전부 통과한 신규 케이스는 버린다.*
 
 정한 규칙:
 

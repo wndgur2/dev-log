@@ -7,6 +7,7 @@ date_finished:
 head_count: 1
 role: Full-stack · Mobile
 tags: expo, react-native, supabase, edge-functions, llm, pwa, vercel, monorepo
+thumbnail: /images/loop.jpeg
 ---
 
 > 임시 게시글: GitHub 기록을 바탕으로 작성한 초안이며, 이후 다듬을 예정이다.
@@ -20,6 +21,9 @@ Loop는 이 문제를 **"피드백 → 목표 달성, with AI"** 로 풀려는 �
 1. AI 코치 **Loopie**가 대화로 상황의 근본 원인과 실천항목(Takeaway)을 끌어낸다.
 2. 피드백을 사용자의 커리어 목표(최종 목표 → 하위 목표)에 정렬해 진척을 추적한다.
 3. 아직 내재화되지 않은 항목을 회고 대화로 다시 꺼내 행동으로 잇는다.
+
+![Loop 로그인 화면](/images/posts/loop/sign-in.png)
+*그림. 웹(PWA)으로 배포된 Loop의 로그인 화면.*
 
 ## 사용 기술
 
@@ -53,6 +57,9 @@ loop/
 - 웹은 별도 소스 없이 `mobile/`의 Expo 앱을 `react-native-web`으로 export한 것이다.
 - 모든 LLM 호출은 Edge Function `chat`을 경유한다. 키는 클라이언트에 두지 않는다.
 - DB(snake_case) ↔ 앱(camelCase) 변환은 `types/models.ts` 매퍼로 일원화했다.
+
+![Loop 시스템 구성도](/images/posts/loop/architecture.svg)
+*그림. 앱은 Supabase에 직접 CRUD하고, LLM 호출만 Edge Function `chat`을 거친다.*
 
 ## 주요 기능
 

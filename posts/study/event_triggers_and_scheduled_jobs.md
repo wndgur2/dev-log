@@ -28,6 +28,9 @@ tags: trigger, scheduler, webhook, polling, AI agent, preview environment
 - 턴을 시작하기 **전에** 만든 대화 id를 먼저 기록한다. 그래야 중간에 죽어도 어디까지 갔는지 안다.
 - 작업 리스가 만료됐을 때, 업로드 단계였다면 다시 대기열에 넣는다. 턴 단계였다면 **자동 재시도하지 않는다.** 턴이 이미 시작됐는지 모르는 상태에서 다시 돌리면 같은 메일로 대화가 두 번 열린다.
 
+![delivery 상태 머신](/images/posts/event-triggers-and-scheduled-jobs/delivery-states.svg)
+*그림. 리스가 만료됐을 때 업로드 단계는 다시 대기열에 넣고, 턴 단계는 자동 재시도하지 않는다.*
+
 ## 2. 과거 항목을 되살리지 않는다
 
 트리거는 만든 뒤에 새로 들어온 항목만 대상으로 했다(backfill 없음).
@@ -114,6 +117,9 @@ PR마다 preview 환경을 띄우는데, 데이터베이스 스키마 변경이 
 - "지금 실행"은 요청을 받은 본 서비스에서 바로 돌아서 영향이 없었다.
 
 해결: **공유 DB를 쓰는 preview에서만** 주기 스윕을 끈다. 격리 DB preview는 스케줄러를 시험할 수 있게 그대로 켠다.
+
+![공유 DB preview와 예약 스윕](/images/posts/event-triggers-and-scheduled-jobs/preview-shared-db.svg)
+*그림. 공유 DB를 쓰는 preview의 스윕만 끄면, 예약은 본 서비스와 격리 DB preview만 집는다.*
 
 ### 트리거 이벤트가 preview로 오지 않음
 

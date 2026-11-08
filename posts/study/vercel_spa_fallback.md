@@ -33,6 +33,9 @@ tags: vercel, spa, expo-router, react-native-web, pwa, service-worker, webfont, 
 + "rewrites": [{ "source": "/(.*)", "destination": "/" }],
 ```
 
+![rewrite destination 수정 전후](/images/posts/vercel-spa-fallback/rewrite-before-after.svg)
+*그림. `cleanUrls: true`에서는 rewrite destination을 `/index.html`이 아니라 `/`로 둬야 동적 라우트가 200을 받는다.*
+
 ### 배운 점
 
 로컬 검증을 `npx serve -s`로 했는데, 이 서버는 cleanUrls 개념이 없어 그냥 index.html로 폴백한다. 그래서 로컬에선 통과하고 Vercel에서만 깨졌다. **호스팅 라우팅은 실제 배포본에서 확인해야 한다.** 같은 맥락에서, `vercel.json`은 스키마가 엄격해서 `_comment` 같은 모르는 키가 있으면 빌드 전에 배포가 실패한다.
@@ -117,6 +120,9 @@ react-navigation은 탭 버튼에 `href`를 넘기고, react-native-web은 `href
 
 이 버그는 원래 있었는데, 탭마다 문서가 새로 로드되면서 캐시가 날아가 우연히 가려지고 있었다. 4번을 고치자 드러났다.
 
+![세션 없는 쿼리의 빈 결과가 캐시되는 과정](/images/posts/vercel-spa-fallback/empty-cache.svg)
+*그림. 세션 없이 나간 쿼리가 RLS에서 `[]`를 받고, 그 빈 결과가 로그인 뒤에도 캐시에 남는다.*
+
 ### 수정 1 — 세션 가드
 
 ```ts
@@ -139,6 +145,9 @@ supabase.auth.onAuthStateChange((_event, next) => {
   setSession(next);
 });
 ```
+
+![세션 가드와 계정 전환 시 캐시 폐기](/images/posts/vercel-spa-fallback/session-guard.svg)
+*그림. 세션이 없으면 쿼리를 막고, 사용자 id가 바뀌면 캐시를 통째로 비운다.*
 
 빌드본에서 로그아웃 상태로 `/`에 진입했을 때 RLS 대상 REST 호출이 0건인 걸 확인했다.
 

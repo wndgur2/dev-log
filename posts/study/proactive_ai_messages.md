@@ -38,6 +38,9 @@ export const MAX_VOLUNTARY_MESSAGES_IN_A_ROW = 3;
 
 문서에서는 이를 "slow-start" 방식이라고 부른다. 대화 직후에는 자주 확인하고, 반응이 없을수록 확인 간격이 지수적으로 늘어난다.
 
+![평가 간격 타임라인: AI 메시지 저장 후 4초, 8초, 16초, 32초로 평가 간격이 두 배씩 늘어난다](/images/posts/proactive-ai-messages/evaluation-backoff.svg)
+*그림. AI 메시지가 저장되면 4초 뒤 첫 평가를 하고, NO가 나올 때마다 간격이 두 배가 된다.*
+
 ### 중복 처리 방지
 
 - `isProcessing` 플래그로 이전 tick이 끝나기 전에 다음 tick이 겹치지 않게 했다.
@@ -55,6 +58,9 @@ AI 메시지가 저장될 때마다 delay가 4초로 초기화되기 때문에, 
 - 출력: Ollama structured output으로 `{ "decision": "YES" | "NO" }` JSON schema를 강제한다.
 - 사용자가 리마인더나 알림을 요청한 경우 `YES`라고 하도록 프롬프트에 적었다.
 - 평가 호출이 실패하면 `NO`로 처리한다.
+
+![평가 흐름: cron tick에서 연속 proactive가 3개 이상이면 평가 없이 backoff, 아니면 평가 모델을 불러 NO면 backoff, YES면 메시지를 생성하고 delay를 4초로 되돌린다](/images/posts/proactive-ai-messages/evaluation-flow.svg)
+*그림. 연속 상한 → 평가 모델 → backoff 순서로 AI가 혼자 계속 말하지 않게 막는다.*
 
 ### proactive 메시지 생성
 
@@ -76,6 +82,9 @@ reply와 같은 생성 함수를 쓰지만 설정을 다르게 준다.
 |---|---|---|---|
 | Snippet | Qdrant | 메시지 원문 chunk + 임베딩 | 현재 질문과의 유사도 검색 |
 | Canonical | MySQL `memories` | `kind`/`key`/`value` 구조화 사실 | 채팅방 기준 전체(상한 있음) |
+
+![메모리 두 계층: history window에서 막 밀려난 사용자 메시지가 Qdrant snippet과 MySQL canonical memory로 저장되고, 프롬프트에는 canonical, snippet, 최근 대화 8개가 함께 들어간다](/images/posts/proactive-ai-messages/memory-layers.svg)
+*그림. 최근 8개는 history로 그대로 넣고, 막 밀려난 메시지만 두 저장소로 옮겨 프롬프트를 조립할 때 다시 꺼낸다.*
 
 ### 인덱싱 시점
 

@@ -7,6 +7,7 @@ date_finished:
 head_count: 1
 role: Firmware · Android · Hardware
 tags: wearable, ble, zephyr, nrf54l15, android, kotlin, opus, on-device
+thumbnail: /images/owl.jpeg
 ---
 
 > 임시 게시글: GitHub 기록을 바탕으로 작성한 초안이며, 이후 다듬을 예정이다.
@@ -46,6 +47,9 @@ tags: wearable, ble, zephyr, nrf54l15, android, kotlin, opus, on-device
 목걸이: 마이크 → VAD → Opus → 플래시 ──BLE(폰이 요청)──▶ 폰: 저장 → ACK → STT → 타임라인
                                                           폰 GPS ─────────────┘
 ```
+
+![목걸이와 폰의 역할 분담: 목걸이는 녹음해 플래시에 쌓고, 폰이 BLE로 가져가 저장·ACK·STT·타임라인을 처리한다](/images/posts/owl/system.svg)
+*그림. 목걸이는 녹음해서 쌓기만 하고, 폰이 15분마다 가져가 저장한 뒤 ACK하면 그때 목걸이가 지운다.*
 
 - **기기는 녹음하고 쌓기만 한다.** STT, 위치, 시각 복원은 전부 폰이 한다. nRF54L15로는 온디바이스 STT가 불가능하기 때문이다.
 - **실시간 스트리밍은 없다.** 폰이 근처에 있으면 15분마다 연결해서 가져간다(배치 전송). 무선 시간을 줄여 배터리를 아낀다.
@@ -91,6 +95,9 @@ docs/       PRD, 아키텍처, 설계 결정, 로드맵
 - 음성 보관 기간 선택, 북마크 필터, 검색, 테마(기본 다크), 앱 사용 기록과 집계 탭(장소별 머문 시간, 앱별 사용 시간)도 들어갔다.
 - 온디바이스 STT는 인터페이스만 있고 엔진은 아직 정하지 않았다(whisper.cpp 또는 sherpa-onnx 후보).
 
+![Owl 앱 화면: 타임라인, 기록 상세, 기기](/images/posts/owl/app-screens.png)
+*그림. 왼쪽부터 타임라인, 기록 상세(합친 기록 재생), 기기 화면. 에뮬레이터에서 가짜 목걸이의 시험 데이터로 찍었다.*
+
 ### 하드웨어 없이 검증하기
 
 보드가 오기 전에 대부분을 구현해야 해서 검증 도구를 먼저 만들었다.
@@ -103,6 +110,9 @@ docs/       PRD, 아키텍처, 설계 결정, 로드맵
 ### 케이스
 
 OpenSCAD로 케이스를 코드로 만들었다. 부품 실측값만 바꾸면 다시 만들 수 있고, 부품이 뚜껑·모서리에 닿으면 `assert`가 알려준다. 목표 크기는 고리를 빼고 약 36 × 24 × 13mm다. 예비 방법으로 3D펜 도면도 만들었다.
+
+![OpenSCAD 케이스 분해 렌더: 뚜껑, 보드와 배선, 몸통](/images/posts/owl/case-exploded.png)
+*그림. OpenSCAD 모델의 분해 렌더. 위에서부터 뚜껑, 보드·배선·버튼, 몸통이다.*
 
 ## 서브 프로젝트: owl_laya (상황 분류)
 

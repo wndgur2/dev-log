@@ -23,6 +23,9 @@ tags: chat, fork, LLM, agent, feature flag
 
 앱 메시지만 복사하면 화면은 같아 보여도 모델은 아무것도 기억하지 못한다. 그래서 세션 레이어에 **fork API**를 따로 만들었다.
 
+![두 층을 모두 복사하는 fork](/images/posts/conversation-branching/two-layers-fork.svg)
+*그림. 숫자는 턴이다. 분기점까지의 턴을 앱 대화 기록과 세션 기억 양쪽에서 새 대화로 복사한다.*
+
 ## 3. 세션 fork API
 
 `POST /sessions/{id}/fork { turnId }` → 새 세션. 모델을 실행하거나 새 턴을 시작하지는 않는다.
@@ -47,6 +50,9 @@ tags: chat, fork, LLM, agent, feature flag
 
 - 3이 실패하면 2에서 만든 대화를 지운다. **기억 없이 시작하는 갈래**를 남기지 않는다.
 - 4가 실패하면 3의 fork 세션을 지운다. 목록에 고아 세션이 남지 않게.
+
+![fork 순서와 보상](/images/posts/conversation-branching/fork-compensation.svg)
+*그림. 3이나 4가 실패하면 바로 앞 단계에서 만든 것을 지워서 반쪽짜리 갈래를 남기지 않는다.*
 
 버튼은 "세션 턴이 완료된 답변"에서만 보여야 한다. 그래서 턴 완료 이벤트를 받는 시점에 답변 메시지에 세션 턴 id를 같이 저장했다. 최종 저장 응답에 그 값이 실려 오므로, 답변이 끝나자마자 버튼이 뜬다.
 

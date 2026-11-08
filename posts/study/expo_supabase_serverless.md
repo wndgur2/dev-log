@@ -24,6 +24,9 @@ tags: expo, react-native, supabase, postgres, rls, edge-functions, llm, monorepo
 - **일반 CRUD는 클라이언트가 Supabase에 직접 한다.** 권한은 서버 코드가 아니라 DB의 RLS가 지킨다.
 - **비밀값이 필요한 일만 Edge Function으로 보낸다.** LLM API 키와 service_role 키는 클라이언트에 절대 두지 않는다.
 
+![CRUD 경로와 Edge Function 경로](/images/posts/expo-supabase-serverless/two-paths.svg)
+*그림. CRUD는 RLS를 거쳐 DB로 바로 가고, 비밀값이 필요한 요청만 Edge Function을 거친다.*
+
 ## 2. 데이터 모델
 
 ```
@@ -74,6 +77,9 @@ alter default privileges in schema public
 
 GRANT는 테이블에 들어갈 자격이고, 어떤 행을 볼지는 여전히 RLS가 정한다. 둘은 별개의 층이다.
 
+![GRANT와 RLS 두 층](/images/posts/expo-supabase-serverless/grant-rls.svg)
+*그림. GRANT가 없으면 RLS까지 가지도 못하고 42501로 거절된다.*
+
 ## 4. Edge Function — LLM 호출만 서버에서
 
 `chat` 함수 하나가 작성·회고 두 모드를 모두 처리한다. 차이는 시스템 프롬프트와 툴(모드당 1개)뿐이다.
@@ -87,6 +93,9 @@ GRANT는 테이블에 들어갈 자격이고, 어떤 행을 볼지는 여전히 
 - **확인 후 커밋**: 함수는 DB를 직접 바꾸지 않는다. 툴 호출 결과를 `proposal`로 돌려주고, 클라이언트가 확인 칩으로 동의를 받은 뒤 RLS mutation으로 반영한다.
 - **프로바이더 어댑터**: `llm/` 아래에 anthropic/openai/gemini 어댑터를 두고 `LLM_PROVIDER` secret으로 고른다. 호출부는 프로바이더를 모른다.
 - **프롬프트 캐싱**: 크고 세션 내에서 안정적인 컨텍스트 블록에 `cache_control: ephemeral`을 붙였다.
+
+![chat 함수의 제안-확인-반영 흐름](/images/posts/expo-supabase-serverless/chat-flow.svg)
+*그림. 함수는 `proposal`만 돌려주고, 반영은 사용자가 확인한 뒤 클라이언트가 RLS mutation으로 한다.*
 
 ### 런타임에서 잡은 버그 두 개
 

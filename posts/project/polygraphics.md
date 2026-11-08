@@ -7,6 +7,7 @@ date_finished:
 head_count: 1
 role: Tooling · Game art · Sound
 tags: procedural-asset, design-token, svg, json-schema, phaser, godot, webaudio, typescript, zod
+thumbnail: /images/polygraphics.jpeg
 ---
 
 > 임시 게시글: GitHub 기록을 바탕으로 작성한 초안이며, 이후 다듬을 예정이다.
@@ -16,6 +17,9 @@ tags: procedural-asset, design-token, svg, json-schema, phaser, godot, webaudio,
 **AI-legible procedural asset system.** 게임 비주얼과 사운드를 선언형 JSON 문서로 적고, design token 세트에 맞춰 결정적으로(deterministic) 렌더링하는 시스템이다.
 
 핵심 문장은 하나다. **에셋은 읽고, diff하고, 패치하고, 검증하고, 따로 떼어 렌더링할 수 있는 데이터다.**
+
+![PolyGraphics 갤러리의 실제 에셋들](/images/posts/polygraphics/showcase.png)
+*그림. 갤러리에 있는 실제 에셋들. 캐릭터, 적, 투사체, 픽업, 아이콘, 유물, 물약 모두 JSON 문서에서 렌더링된 것이다.*
 
 ### 왜 만들었나
 
@@ -52,6 +56,9 @@ compiled IR   토큰 → [r,g,b,a], variant 적용, use 인라인, repeat 전개
         ├─▶ dist/<app>/*.json    게임이 import하는 번들
         └─▶ adapters             Phaser · Godot · WebAudio (단순 해석기)
 ```
+
+![에셋 문서와 토큰이 lint와 컴파일을 거쳐 IR이 되고, SVG·bake·번들·어댑터로 나가는 흐름](/images/posts/polygraphics/pipeline.svg)
+*그림. 문서와 토큰은 검증을 거쳐 하나의 IR로 컴파일되고, 갤러리·회귀 테스트·게임 번들·엔진 어댑터가 모두 그 IR을 쓴다.*
 
 ```
 tokens/base.json        모든 앱이 공유하는 물리량: 램프, 선 굵기, 알파, 오디오 사다리

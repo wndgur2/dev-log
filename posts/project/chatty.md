@@ -7,6 +7,7 @@ date_finished:
 head_count: 1
 role: Full-stack
 tags: NestJS, React, Socket.IO, Ollama, Qdrant, RAG, Prisma, MySQL, PWA
+thumbnail: /images/chatty.jpeg
 ---
 
 > 임시 게시글: GitHub 기록을 바탕으로 작성한 초안이며, 이후 다듬을 예정이다.
@@ -51,6 +52,9 @@ Browser (React SPA, PWA)
                                └─ infrastructure (Qdrant, storage)
                              MySQL (Prisma) · Qdrant · Ollama
 ```
+
+![Chatty 아키텍처: React SPA가 nginx를 거쳐 NestJS의 REST API와 Socket.IO gateway에 붙고, NestJS 모듈이 MySQL, Qdrant, Ollama, FCM을 쓴다](/images/posts/chatty/architecture.svg)
+*그림. 브라우저는 REST와 WebSocket 두 채널로 NestJS에 붙고, 각 모듈이 MySQL · Qdrant · Ollama · FCM(선택)을 쓴다.*
 
 - `inference` 모듈은 port/adapter 구조로 나눴다. `ChatCompletionPort`, `EmbeddingPort`, `MemoryExtractionPort`, `ProactiveMessageEvaluationPort`를 Ollama adapter가 구현한다.
 - 메시지 전송 API는 사용자 메시지만 저장하고 `202 Accepted`를 돌려준다. AI 답변은 백그라운드에서 생성해 Socket.IO로 흘려보낸다.

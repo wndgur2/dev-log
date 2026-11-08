@@ -58,6 +58,9 @@ tags: webaudio, procedural-audio, sfx, loudness, k-weighting, design-token, game
 
 음량은 여섯 칸 사다리(`hush faint soft mid loud peak`, 0.07~0.5)에서 고른다. 0.14~0.5 사이에 흩어져 있던 16개의 임의 float를 대체했고, "인터페이스를 조용하게"가 토큰 하나의 일이 됐다.
 
+![hush부터 peak까지 여섯 칸 gain 토큰을 막대로 나타낸 차트](/images/posts/procedural-sound-design/gain-ladder.svg)
+*그림. 음량 사다리. 흩어져 있던 임의 float 16개를 여섯 칸 토큰(0.07~0.5)으로 대체했다.*
+
 ## 4. 결정성과 두 가지 재생 경로
 
 무작위성은 전부 IR에 실린 seed PRNG다. 벽시계도 없다. 그래서 WAV bake가 매번 바이트 단위로 같고, 그림과 같은 `regress`에 들어간다. 트리거마다 달라지는 `jitter`는 엔진이 굴리고 bake는 무시한다.
@@ -71,6 +74,9 @@ playBuffer(ctx, sfxBus, buf, { rate: 0.82 + Math.random() * 0.38 });  // 싸게 
 ```
 
 자주 울리는 소리는 버퍼, 노드를 쓸 가치가 있는 소리는 라이브 그래프다. 오프라인 WAV까지 세 경로가 하나의 IR을 해석하고, `scripts/test-webaudio-adapter.ts`가 녹음용 mock context로 어댑터를 돌려 envelope 곡선과 노이즈를 렌더러와 샘플 단위로 비교한다.
+
+![사운드 문서가 컴파일되어 IR이 되고, 라이브 그래프·버퍼·오프라인 WAV 세 경로로 재생되는 흐름](/images/posts/procedural-sound-design/playback-paths.svg)
+*그림. 사운드 문서는 하나의 IR로 컴파일되고, 라이브 노드 그래프·버퍼·오프라인 WAV 세 경로가 같은 IR을 해석한다.*
 
 ## 5. 인스트루먼트 레이어
 
